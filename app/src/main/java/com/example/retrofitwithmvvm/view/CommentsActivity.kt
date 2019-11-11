@@ -18,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider
 class CommentsActivity : AppCompatActivity() {
     private lateinit var viewModel: CommentsViewModel
     private lateinit var sendPostViewModel: SendPostViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.example.retrofitwithmvvm.R.layout.activity_comments)
@@ -26,40 +25,42 @@ class CommentsActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this
         ).get(CommentsViewModel::class.java)
-        sendPostViewModel = ViewModelProvider(
-            this).get(SendPostViewModel::class.java)
-        val fakePost = Post(userId = "5", title = "haresh", body = "this is haresh")
-        sendPostViewModel.createPost(fakePost).observe(this,
-            Observer<Post> { post ->
-                var content = ""
-                post.apply {
-                    content += "ID: $id\n"
-                    content += "User ID: $userId\n"
-                    content += "Title: $title\n"
-                    content += "Text: $body\n"
-                }
-                text_view_result.text = content
-            })
 
-
-//        viewModel.getPostComments(1).observe(this, object : Observer<List<Comments>> {
-//            override fun onChanged(commentsList: List<Comments>?) {
-//                commentsList?.forEach {
-//                    it.apply {
-//                        var content = ""
-//                        content += "ID: $id\n"
-//                        content += "Post ID: $postId\n"
-//                        content += "Name: $name\n"
-//                        content += "Email: $email\n"
-            //                        content += "Text: $text\n\n"
-//                        text_view_result.append(content)
-//
-//                    }
-//
+//        sendPostViewModel = ViewModelProvider(
+//            this
+//        ).get(SendPostViewModel::class.java)
+//        val fakePost = Post(userId = "5", title = "haresh", body = "this is haresh")
+//        sendPostViewModel.createPost(fakePost).observe(this,
+//            Observer<Post> { post ->
+//                var content = ""
+//                post.apply {
+//                    content += "ID: $id\n"
+//                    content += "User ID: $userId\n"
+//                    content += "Title: $title\n"
+//                    content += "Text: $body\n"
 //                }
-//            }
-//
-//        })
+//                text_view_result.text = content
+//            })
+
+
+        viewModel.getPostComments(1).observe(this, object : Observer<List<Comments>> {
+            override fun onChanged(commentsList: List<Comments>?) {
+                commentsList?.forEach {
+                    it.apply {
+                        var content = ""
+                        content += "ID: $id\n"
+                        content += "Post ID: $postId\n"
+                        content += "Name: $name\n"
+                        content += "Email: $email\n"
+                                content += "Text: $text\n\n"
+                        text_view_result.append(content)
+
+                    }
+
+                }
+            }
+
+        })
 
 
     }

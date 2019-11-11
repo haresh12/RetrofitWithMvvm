@@ -16,8 +16,10 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class HomeActivity : AppCompatActivity() {
-    internal var adapter: PostsRecyclerAdapter? = null
+    private var adapter: PostsRecyclerAdapter? = null
     private lateinit var viewModel: PostViewModel
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +30,11 @@ class HomeActivity : AppCompatActivity() {
         recycler_view.addItemDecoration(itemDecoration)
         viewModel = ViewModelProviders.of(this).get(PostViewModel::class.java)
         viewModel.getUserPost(5)
-            .observe(this, object : Observer<List<Post>> {
-                override fun onChanged(userPost: List<Post>) {
-                         adapter?.setPosts(userPost)
-                        recycler_view.adapter = adapter
-                }
-            })
+            .observe(this,
+                Observer<List<Post>> { userPost ->
+                    adapter?.setPosts(userPost)
+                    recycler_view.adapter = adapter
+                })
 
     }
 

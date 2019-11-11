@@ -37,14 +37,11 @@ class AuthActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.getAuthUserDetails(Integer.parseInt(user_id_input.text.toString()))
-            .observe(this, object : Observer<User> {
-                override fun onChanged(userAuthResource: User) {
-                    progress_bar.visibility = View.VISIBLE
-                    redirectToHomeScreen()
-                }
+            .observe(this, Observer<User> {
+                progress_bar.visibility = View.GONE
+                redirectToHomeScreen()
             })
     }
-
     private fun redirectToHomeScreen() {
         startActivity(Intent(this, HomeActivity::class.java))
         finish()
